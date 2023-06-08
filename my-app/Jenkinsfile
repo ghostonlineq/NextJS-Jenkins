@@ -6,30 +6,35 @@ pipeline {
       steps {
         echo 'Checkout Method.....'
         // Checkout your GitHub repository
-       git url 'https://github.com/ghostonlineq/NextJS-Jenkins.git'
+       git url: 'https://github.com/ghostonlineq/NextJS-Jenkins.git' , branch: 'main'
       }
     }
 
     stage('Install dependencies') {
       steps {
-        // Install Node.js dependencies
-        sh 'npm install'
+        // Install Node.js dependencies (sh for linux, bat for windows)
+        echo 'Start Install dependencies'
+        bat 'cd my-app && npm install'
       }
     }
 
     stage('Build') {
       steps {
         // Build the Next.js application
-        sh 'npm run build'
+        echo 'Start build project'
+        bat 'cd my-app && npm run build'
       }
     }
 
-    // stage('Test') {
-    //   steps {
-    //     // Run tests for the Next.js application
-    //     sh 'npm run test'
-    //   }
-    // }
+    stage('Test') {
+      steps {
+        // Run tests for the Next.js application
+        echo 'Start Test project before deploy'
+        bat 'cd my-app && npm run test'
+      }
+    }
+
+    stage('Code Check')
 
     stage('Deploy') {
       steps {
